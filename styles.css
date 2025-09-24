@@ -73,7 +73,8 @@ form {
 #pages,
 select,
 #submit,
-#close {
+#close,
+.remove {
     border: 2px solid black;
     border-radius: 10px;
     background-color: ghostwhite;
@@ -118,7 +119,36 @@ div > label {
 .card {
     background-color: azure;
     border-radius: 30px;
-    padding: 20px;
+    padding: 15px;
     border: 2px solid black;
     font-family:Georgia, 'Times New Roman', Times, serif;
+    display: grid;
+    grid-template-rows: 1.5fr repeat(4, 1fr);
+    align-items: start;
+}
+
+.remove {
+    height: 30px;
+    width: 80px;
+    font-weight: 600;
+    justify-self: end;
+}
+
+.title {
+    font-size: 28px;
+    font-weight: 800;
+}
+
+.author {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.pages, .read {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.title, .author, .pages, .read {
+    height: fit-content;
 }
