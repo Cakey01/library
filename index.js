@@ -19,7 +19,6 @@ function addBookToLibrary(library) {
     library.push(book);
     resetInputs();
     console.log(library);
-    console.log(library[0]["title"])
     reset();
     show(library);
 }
@@ -72,23 +71,18 @@ function show(library) {
     library.forEach((book) => {
         const container = document.querySelector('.card-container');
         const card = document.createElement('div');
-        const title = document.createElement('h2');
-        const author = document.createElement('h3');
-        const pages = document.createElement('h5');
-        const read = document.createElement('h5');
-
-        title.textContent = book['title'];
-        author.textContent = book['author'];
-        pages.textContent = book['pages'];
-        read.textContent = book['read'];
-
         card.classList.add('card');
-        card.setAttribute('id', book['id']);
-        card.appendChild(title);
-        card.appendChild(author);
-        card.appendChild(pages);
-        card.appendChild(read);
 
+        for (const property in book) {
+            if (property != 'id') {
+                const text = document.createElement('p');
+                text.classList.add(property)
+                text.textContent = book[`${property}`];
+                card.appendChild(text);
+            } else {
+                card.dataset.id = book['id'];
+            }
+        }
         container.appendChild(card);
     })
 }
