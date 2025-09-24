@@ -109,7 +109,7 @@ div > label {
 .card-container {
     height: 100%;
     display: grid;
-    grid-template-rows: repeat(auto-fit, minmax(150px, 1fr));
+    grid-template-rows: repeat(auto-fit, minmax(150px, 250px));
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 30px;
     padding: 50px;
