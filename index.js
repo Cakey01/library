@@ -27,7 +27,7 @@ function resetInputs() {
     title.value = ''
     author.value = ''
     pages.value = ''
-    read.value = 'no'
+    read.value = 'Want to read'
 }
 
 
