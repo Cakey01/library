@@ -31,12 +31,13 @@ function resetInputs() {
 
 // form
 const dialog = document.querySelector("dialog");
-const show = document.getElementById('show');
+const add = document.getElementById('add');
 const submit = document.getElementById('submit');
+const close = document.getElementById('close');
 
 
 // show dialog
-show.addEventListener('click', () => {
+add.addEventListener('click', () => {
     dialog.showModal();
 })
 
@@ -44,5 +45,9 @@ show.addEventListener('click', () => {
 submit.addEventListener('click', (event) => {
     event.preventDefault();
     addBookToLibrary(library);
+    dialog.close();
+})
+
+close.addEventListener('click', () => {
     dialog.close();
 })
