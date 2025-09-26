@@ -125,6 +125,7 @@ const dialog = document.querySelector('dialog');
 const add = document.getElementById('add');
 const submit = document.getElementById('submit');
 const close = document.getElementById('close');
+const form = document.querySelector('form');
 
 // show
 add.addEventListener('click', () => {
@@ -138,6 +139,17 @@ submit.addEventListener('click', (event) => {
     resetInputs();
     dialog.close();
     show(library);
+});
+
+// prevent refresh on clicking enter
+form.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+        event.preventDefault();
+        addBookToLibrary(library);
+        resetInputs();
+        dialog.close();
+        show(library);
+    }
 });
 
 // close
