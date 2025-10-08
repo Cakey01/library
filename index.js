@@ -78,7 +78,7 @@ class Display {
     changeRead(library) {
         const selects = document.querySelectorAll('.card-read');
         selects.forEach(selected => {
-            selected.addEventListener('change', function() {
+            selected.addEventListener('change', () => {
                 const card = selected.parentElement;
                 const id = card.dataset.id;
                 library.changeRead(id, selected);
@@ -143,7 +143,7 @@ class Display {
         this.changeRead(library);
     }
 
-    eventListeners(library) {
+    eventListeners() {
         // show modal
         this.add.addEventListener('click', () => {
             this.dialog.showModal();
@@ -152,11 +152,12 @@ class Display {
         this.submit.addEventListener('click', this.addCard.bind(this));
         this.form.addEventListener('keydown', (event) => {
             if(event.key === 'Enter') {
-                handleAddBook(event);
+                this.addCard.bind(this)(event);
             }
         });
         // close modal
-        this.close.addEventListener('click', () => {
+        this.close.addEventListener('click', (event) => {
+            event.preventDefault();
             this.dialog.close();
         });
     }
@@ -165,4 +166,3 @@ class Display {
 const library = new Library();
 const display = new Display();
 display.eventListeners(library);
-console.log(library.books);
