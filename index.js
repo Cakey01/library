@@ -60,8 +60,7 @@ class Display {
         library.addBook();
         this.resetInputs();
         this.dialog.close();
-        show(library);
-        console.log(library.books)
+        this.show(library);
     }
 
     removeCard(library) {
@@ -71,7 +70,7 @@ class Display {
                 const card = button.parentElement;
                 const id = card.dataset.id;
                 library.removeBook(id);
-                show(library);    
+                this.show(library);    
             });
         });
     }
@@ -83,7 +82,7 @@ class Display {
                 const card = selected.parentElement;
                 const id = card.dataset.id;
                 library.changeRead(id, selected);
-                show(library);
+                this.show(library);
             });
         });
     }
@@ -97,6 +96,53 @@ class Display {
         }
     }
     
+    show(library) {
+        this.clear();
+        library.books.forEach((book) => {
+            const container = document.querySelector('.card-container');
+            const card = document.createElement('div');
+            const remove = document.createElement('button');
+            const select = document.createElement('select');
+            const values = ['Want to read', 'Reading', 'Read'];
+    
+            select.setAttribute('name', 'read');
+            select.classList.add('read', 'card-read');
+            
+            remove.classList.add('remove');
+            remove.textContent = 'remove';
+    
+            card.classList.add('card');
+    
+            for (const property in book) {
+                if (property != 'id' && property != 'read') {
+                    const text = document.createElement('p');
+                    text.classList.add(property)
+                    text.textContent = book[`${property}`];
+                    card.appendChild(text);
+                } else if (property == 'read') {
+                    const selected = book['read']; // want to read
+                    values.forEach(value => {
+                        const option = document.createElement('option');
+                        option.setAttribute('value', value);
+                        option.textContent = value;
+                        if (option.value === selected) {
+                            option.setAttribute('selected', true);
+                        }
+                        select.appendChild(option);
+                    })
+                } 
+                else {
+                    card.dataset.id = book['id'];
+                }
+            }
+            card.appendChild(select);
+            card.appendChild(remove);
+            container.appendChild(card);
+        });
+        this.removeCard(library);
+        this.changeRead(library);
+    }
+
     eventListeners(library) {
         // show modal
         this.add.addEventListener('click', () => {
@@ -114,55 +160,6 @@ class Display {
             this.dialog.close();
         });
     }
-}
-
-// show books in library
-function show(library) {
-    display.clear();
-    library.books.forEach((book) => {
-        const container = document.querySelector('.card-container');
-        const card = document.createElement('div');
-        const remove = document.createElement('button');
-        const select = document.createElement('select');
-        const values = ['Want to read', 'Reading', 'Read'];
-
-        select.setAttribute('name', 'read');
-        select.classList.add('read', 'card-read');
-        
-        remove.classList.add('remove');
-        remove.textContent = 'remove';
-
-        card.classList.add('card');
-
-        for (const property in book) {
-            if (property != 'id' && property != 'read') {
-                const text = document.createElement('p');
-                text.classList.add(property)
-                text.textContent = book[`${property}`];
-                card.appendChild(text);
-            } else if (property == 'read') {
-                const selected = book['read']; // want to read
-                values.forEach(value => {
-                    const option = document.createElement('option');
-                    option.setAttribute('value', value);
-                    option.textContent = value;
-                    if (option.value === selected) {
-                        option.setAttribute('selected', true);
-                    }
-                    select.appendChild(option);
-                })
-            } 
-            
-            else {
-                card.dataset.id = book['id'];
-            }
-        }
-        card.appendChild(select);
-        card.appendChild(remove);
-        container.appendChild(card);
-    });
-    display.removeCard(library);
-    display.changeRead(library);
 }
 
 const library = new Library();
