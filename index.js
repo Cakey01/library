@@ -30,6 +30,12 @@ class Library {
         this.books.splice(index, 1);
     }
 
+    changeRead(id, selected) {
+        const toChange = this.books.find(book => book.id === id);
+        const index = this.books.indexOf(toChange);
+        library.books[index]['read'] = selected.value;
+    }
+
 }
 
 class Display {
@@ -70,6 +76,18 @@ class Display {
         });
     }
 
+    changeRead(library) {
+        const selects = document.querySelectorAll('.card-read');
+        selects.forEach(selected => {
+            selected.addEventListener('change', function() {
+                const card = selected.parentElement;
+                const id = card.dataset.id;
+                library.changeRead(id, selected);
+                show(library);
+            });
+        });
+    }
+
     eventListeners(library) {
         // show modal
         this.add.addEventListener('click', () => {
@@ -89,34 +107,20 @@ class Display {
     }
 }
 
-// function removeCard(library) {
-//     const remove = document.querySelectorAll('.remove');
-//     remove.forEach(button => {
-//         button.addEventListener('click', () => {
-//             const card = button.parentElement;
-//             const id = card.dataset.id;
-//             const toDelete = library.find(book => book.id === id);
-//             const index = library.indexOf(toDelete);
-//             library.splice(index, 1);
-//             show(library);
-//         })
-//     })
-// }
-
 // if read changes
-function readChange(library) {
-    const selects = document.querySelectorAll('.card-read');
-    selects.forEach(select => {
-        select.addEventListener('change', function() {
+// function readChange(library) {
+//     const selects = document.querySelectorAll('.card-read');
+//     selects.forEach(select => {
+//         select.addEventListener('change', function() {
 
-            const card = select.parentElement;
-            const id = card.dataset.id;
-            const book = library.find(book => book.id === id);
-            const index = library.indexOf(book);
-            library[index]['read'] = select.value;
-        });
-    });
-}
+//             const card = select.parentElement;
+//             const id = card.dataset.id;
+//             const book = library.find(book => book.id === id);
+//             const index = library.indexOf(book);
+//             library[index]['read'] = select.value;
+//         });
+//     });
+// }
 
 // reset container before showing library
 function resetLibrary() {
@@ -175,7 +179,7 @@ function show(library) {
         container.appendChild(card);
     });
     display.removeCard(library);
-    readChange(library);
+    display.changeRead(library);
 }
 
 const library = new Library();
