@@ -42,23 +42,28 @@ class Display {
         this.submit = document.getElementById('submit');
         this.close = document.getElementById('close');
         this.form = document.querySelector('form');
+        this.title = document.getElementById('title');
+        this.author = document.getElementById('author');
+        this.pages = document.getElementById('pages');
+        this.read = document.getElementById('read');
         this.library = library;
     }
 
     resetInputs() {
-        title.value = '';
-        author.value = '';
-        pages.value = '';
-        read.value = 'Want to read';
+        this.title.value = '';
+        this.author.value = '';
+        this.pages.value = '';
+        this.read.value = 'Want to read';
     }
 
     addCard(event) {
         event.preventDefault();
-        const title = document.getElementById('title');
-        const author = document.getElementById('author');
-        const pages = document.getElementById('pages');
-        const read = document.getElementById('read');
-        this.library.addBook(title.value, author.value, pages.value, read.value);
+        this.library.addBook(
+            this.title.value, 
+            this.author.value, 
+            this.pages.value, 
+            this.read.value
+        );
         this.resetInputs();
         this.dialog.close();
         this.show();
@@ -166,4 +171,4 @@ class Display {
 
 const library = new Library();
 const display = new Display(library);
-display.eventListeners(library);
+display.eventListeners();
