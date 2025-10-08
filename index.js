@@ -41,16 +41,44 @@ class Library {
     }
 }
 
-// function addBookToLibrary(library) {
-//     const title = document.getElementById('title');
-//     const author = document.getElementById('author');
-//     const pages = document.getElementById('pages');
-//     const read = document.getElementById('read');
-//     const book = new Book(title.value, author.value, pages.value, read.value);
+class Display {
+    constructor() {
+        // dialog
+        this.dialog = document.querySelector('dialog');
+        this.add = document.getElementById('add');
+        this.submit = document.getElementById('submit');
+        this.close = document.getElementById('close');
+        this.form = document.querySelector('form');
+    }
 
-//     library.push(book);
-// }
+    handleAddBook(event) {
+        event.preventDefault();
+        library.addBook();
+        resetInputs();
+        this.dialog.close();
+        show(library.library);
+    }
 
+    eventListeners(library) {
+        // show modal
+        this.add.addEventListener('click', () => {
+            this.dialog.showModal();
+        });
+        // submit
+        this.submit.addEventListener('click', this.handleAddBook.bind(this));
+        this.form.addEventListener('keydown', (event) => {
+            if(event.key === 'Enter') {
+                handleAddBook(event);
+            }
+        });
+        // close modal
+        this.close.addEventListener('click', () => {
+            this.dialog.close();
+        });
+
+    }
+
+}
 function resetInputs() {
     title.value = '';
     author.value = '';
@@ -149,42 +177,44 @@ function show(library) {
 
 
 // dialog
-const dialog = document.querySelector('dialog');
-const add = document.getElementById('add');
-const submit = document.getElementById('submit');
-const close = document.getElementById('close');
-const form = document.querySelector('form');
+// const dialog = document.querySelector('dialog');
+// const add = document.getElementById('add');
+// const submit = document.getElementById('submit');
+// const close = document.getElementById('close');
+// const form = document.querySelector('form');
 
 // show
-add.addEventListener('click', () => {
-    dialog.showModal();
-});
+// add.addEventListener('click', () => {
+//     dialog.showModal();
+// });
 
-// submit
-submit.addEventListener('click', (event) => {
-    event.preventDefault();
-    library.addBook();
-    console.log(library.library)
-    resetInputs();
-    dialog.close();
-    show(library);
-});
+// // submit
+// submit.addEventListener('click', (event) => {
+//     event.preventDefault();
+//     library.addBook();
+//     console.log(library.library)
+//     resetInputs();
+//     dialog.close();
+//     show(library);
+// });
 
-// prevent refresh on clicking enter
-form.addEventListener('keydown', (event) => {
-    if (event.key === 'Enter') {
-        event.preventDefault();
-        addBookToLibrary(library);
-        resetInputs();
-        dialog.close();
-        show(library);
-    }
-});
+// // prevent refresh on clicking enter
+// form.addEventListener('keydown', (event) => {
+//     if (event.key === 'Enter') {
+//         event.preventDefault();
+//         addBookToLibrary(library);
+//         resetInputs();
+//         dialog.close();
+//         show(library);
+//     }
+// });
 
-// close
-close.addEventListener('click', () => {
-    dialog.close();
-});
+// // close
+// close.addEventListener('click', () => {
+//     dialog.close();
+// });
 
-let library = new Library();
+const library = new Library();
+const display = new Display();
+display.eventListeners(library);
 console.log(library.library);
