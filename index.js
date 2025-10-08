@@ -33,19 +33,20 @@ class Library {
     changeRead(id, selected) {
         const toChange = this.books.find(book => book.id === id);
         const index = this.books.indexOf(toChange);
-        library.books[index]['read'] = selected.value;
+        this.books[index]['read'] = selected.value;
     }
 
 }
 
 class Display {
-    constructor() {
+    constructor(library) {
         // dialog
         this.dialog = document.querySelector('dialog');
         this.add = document.getElementById('add');
         this.submit = document.getElementById('submit');
         this.close = document.getElementById('close');
         this.form = document.querySelector('form');
+        this.library = library;
     }
 
     resetInputs() {
@@ -57,32 +58,32 @@ class Display {
 
     addCard(event) {
         event.preventDefault();
-        library.addBook();
+        this.library.addBook();
         this.resetInputs();
         this.dialog.close();
-        this.show(library);
+        this.show();
     }
 
-    removeCard(library) {
+    removeCard() {
         const remove = document.querySelectorAll('.remove');
         remove.forEach(button => {
             button.addEventListener('click', () => {
                 const card = button.parentElement;
                 const id = card.dataset.id;
-                library.removeBook(id);
-                this.show(library);    
+                this.library.removeBook(id);
+                this.show();    
             });
         });
     }
 
-    changeRead(library) {
+    changeRead() {
         const selects = document.querySelectorAll('.card-read');
         selects.forEach(selected => {
             selected.addEventListener('change', () => {
                 const card = selected.parentElement;
                 const id = card.dataset.id;
-                library.changeRead(id, selected);
-                this.show(library);
+                this.library.changeRead(id, selected);
+                this.show();
             });
         });
     }
@@ -96,9 +97,9 @@ class Display {
         }
     }
     
-    show(library) {
+    show() {
         this.clear();
-        library.books.forEach((book) => {
+        this.library.books.forEach((book) => {
             const container = document.querySelector('.card-container');
             const card = document.createElement('div');
             const remove = document.createElement('button');
@@ -139,8 +140,8 @@ class Display {
             card.appendChild(remove);
             container.appendChild(card);
         });
-        this.removeCard(library);
-        this.changeRead(library);
+        this.removeCard();
+        this.changeRead();
     }
 
     eventListeners() {
@@ -164,5 +165,5 @@ class Display {
 }
 
 const library = new Library();
-const display = new Display();
+const display = new Display(library);
 display.eventListeners(library);
