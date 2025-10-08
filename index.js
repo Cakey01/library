@@ -1,5 +1,5 @@
 // library array
-const library = [];
+
 
     // variables
 
@@ -25,15 +25,31 @@ class Book {
     }
 }
 
-function addBookToLibrary(library) {
-    const title = document.getElementById('title');
-    const author = document.getElementById('author');
-    const pages = document.getElementById('pages');
-    const read = document.getElementById('read');
-    const book = new Book(title.value, author.value, pages.value, read.value);
+class Library {
+    constructor() {
+        this.library = [];
+    }
 
-    library.push(book);
+    addBook() {
+        const title = document.getElementById('title');
+        const author = document.getElementById('author');
+        const pages = document.getElementById('pages');
+        const read = document.getElementById('read');
+        const book = new Book(title.value, author.value, pages.value, read.value);
+
+        this.library.push(book);
+    }
 }
+
+// function addBookToLibrary(library) {
+//     const title = document.getElementById('title');
+//     const author = document.getElementById('author');
+//     const pages = document.getElementById('pages');
+//     const read = document.getElementById('read');
+//     const book = new Book(title.value, author.value, pages.value, read.value);
+
+//     library.push(book);
+// }
 
 function resetInputs() {
     title.value = '';
@@ -147,7 +163,8 @@ add.addEventListener('click', () => {
 // submit
 submit.addEventListener('click', (event) => {
     event.preventDefault();
-    addBookToLibrary(library);
+    library.addBook();
+    console.log(library.library)
     resetInputs();
     dialog.close();
     show(library);
@@ -168,3 +185,6 @@ form.addEventListener('keydown', (event) => {
 close.addEventListener('click', () => {
     dialog.close();
 });
+
+let library = new Library();
+console.log(library.library);
