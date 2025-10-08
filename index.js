@@ -88,6 +88,15 @@ class Display {
         });
     }
 
+    clear() {
+        const cards = document.querySelectorAll('.card');
+        if (!cards) {
+            return;
+        } else {
+            cards.forEach(card => card.remove());
+        }
+    }
+
     eventListeners(library) {
         // show modal
         this.add.addEventListener('click', () => {
@@ -107,21 +116,6 @@ class Display {
     }
 }
 
-// if read changes
-// function readChange(library) {
-//     const selects = document.querySelectorAll('.card-read');
-//     selects.forEach(select => {
-//         select.addEventListener('change', function() {
-
-//             const card = select.parentElement;
-//             const id = card.dataset.id;
-//             const book = library.find(book => book.id === id);
-//             const index = library.indexOf(book);
-//             library[index]['read'] = select.value;
-//         });
-//     });
-// }
-
 // reset container before showing library
 function resetLibrary() {
     const cards = document.querySelectorAll('.card');
@@ -135,7 +129,7 @@ function resetLibrary() {
 
 // show books in library
 function show(library) {
-    resetLibrary();
+    display.clear();
     library.books.forEach((book) => {
         const container = document.querySelector('.card-container');
         const card = document.createElement('div');
