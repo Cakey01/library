@@ -1,20 +1,3 @@
-// library array
-
-
-    // variables
-
-
-// function declarations
-// constructor
-
-// function Book(title, author, pages, read) {
-//     this.title = title;
-//     this.author = author;
-//     this.pages = pages;
-//     this.read = read;
-//     this.id = crypto.randomUUID();
-// }
-
 class Book {
     constructor(title, author, pages, read) {
         this.title = title;
@@ -27,7 +10,7 @@ class Book {
 
 class Library {
     constructor() {
-        this.library = [];
+        this.books = [];
     }
 
     addBook() {
@@ -37,7 +20,7 @@ class Library {
         const read = document.getElementById('read');
         const book = new Book(title.value, author.value, pages.value, read.value);
 
-        this.library.push(book);
+        this.books.push(book);
     }
 }
 
@@ -51,12 +34,19 @@ class Display {
         this.form = document.querySelector('form');
     }
 
+    resetInputs() {
+        title.value = '';
+        author.value = '';
+        pages.value = '';
+        read.value = 'Want to read';
+    }
+
     handleAddBook(event) {
         event.preventDefault();
         library.addBook();
-        resetInputs();
+        this.resetInputs();
         this.dialog.close();
-        show(library.library);
+        show(library.books);
     }
 
     eventListeners(library) {
@@ -77,13 +67,6 @@ class Display {
         });
 
     }
-
-}
-function resetInputs() {
-    title.value = '';
-    author.value = '';
-    pages.value = '';
-    read.value = 'Want to read';
 }
 
 function removeCard(library) {
@@ -175,46 +158,7 @@ function show(library) {
     readChange(library);
 }
 
-
-// dialog
-// const dialog = document.querySelector('dialog');
-// const add = document.getElementById('add');
-// const submit = document.getElementById('submit');
-// const close = document.getElementById('close');
-// const form = document.querySelector('form');
-
-// show
-// add.addEventListener('click', () => {
-//     dialog.showModal();
-// });
-
-// // submit
-// submit.addEventListener('click', (event) => {
-//     event.preventDefault();
-//     library.addBook();
-//     console.log(library.library)
-//     resetInputs();
-//     dialog.close();
-//     show(library);
-// });
-
-// // prevent refresh on clicking enter
-// form.addEventListener('keydown', (event) => {
-//     if (event.key === 'Enter') {
-//         event.preventDefault();
-//         addBookToLibrary(library);
-//         resetInputs();
-//         dialog.close();
-//         show(library);
-//     }
-// });
-
-// // close
-// close.addEventListener('click', () => {
-//     dialog.close();
-// });
-
 const library = new Library();
 const display = new Display();
 display.eventListeners(library);
-console.log(library.library);
+console.log(library.books);
