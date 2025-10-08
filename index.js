@@ -22,6 +22,14 @@ class Library {
 
         this.books.push(book);
     }
+
+    removeBook(id) {
+        console.log(this.books)
+        const toDelete = this.books.find(book => book.id === id);
+        const index = this.books.indexOf(toDelete);
+        this.books.splice(index, 1);
+    }
+
 }
 
 class Display {
@@ -47,6 +55,7 @@ class Display {
         this.resetInputs();
         this.dialog.close();
         show(library);
+        console.log(library.books)
     }
 
     removeCard(library) {
@@ -55,10 +64,8 @@ class Display {
             button.addEventListener('click', () => {
                 const card = button.parentElement;
                 const id = card.dataset.id;
-                const toDelete = library.books.find(book => book.id === id);
-                const index = library.books.indexOf(toDelete);
-                library.books.splice(index, 1);
-                show(library);
+                library.removeBook(id);
+                show(library);    
             });
         });
     }
