@@ -55,7 +55,7 @@ class Display {
         read.value = 'Want to read';
     }
 
-    handleAddBook(event) {
+    addCard(event) {
         event.preventDefault();
         library.addBook();
         this.resetInputs();
@@ -96,14 +96,14 @@ class Display {
             cards.forEach(card => card.remove());
         }
     }
-
+    
     eventListeners(library) {
         // show modal
         this.add.addEventListener('click', () => {
             this.dialog.showModal();
         });
         // submit
-        this.submit.addEventListener('click', this.handleAddBook.bind(this));
+        this.submit.addEventListener('click', this.addCard.bind(this));
         this.form.addEventListener('keydown', (event) => {
             if(event.key === 'Enter') {
                 handleAddBook(event);
@@ -113,17 +113,6 @@ class Display {
         this.close.addEventListener('click', () => {
             this.dialog.close();
         });
-    }
-}
-
-// reset container before showing library
-function resetLibrary() {
-    const cards = document.querySelectorAll('.card');
-
-    if (!cards) {
-        return;
-    } else {
-        cards.forEach(card => card.remove());
     }
 }
 
