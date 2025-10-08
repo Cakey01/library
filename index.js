@@ -13,12 +13,8 @@ class Library {
         this.books = [];
     }
 
-    addBook() {
-        const title = document.getElementById('title');
-        const author = document.getElementById('author');
-        const pages = document.getElementById('pages');
-        const read = document.getElementById('read');
-        const book = new Book(title.value, author.value, pages.value, read.value);
+    addBook(title, author, pages, read) {
+        const book = new Book(title, author, pages, read);
 
         this.books.push(book);
     }
@@ -58,7 +54,11 @@ class Display {
 
     addCard(event) {
         event.preventDefault();
-        this.library.addBook();
+        const title = document.getElementById('title');
+        const author = document.getElementById('author');
+        const pages = document.getElementById('pages');
+        const read = document.getElementById('read');
+        this.library.addBook(title.value, author.value, pages.value, read.value);
         this.resetInputs();
         this.dialog.close();
         this.show();
@@ -153,7 +153,7 @@ class Display {
         this.submit.addEventListener('click', this.addCard.bind(this));
         this.form.addEventListener('keydown', (event) => {
             if(event.key === 'Enter') {
-                this.addCard.bind(this)(event);
+                this.addCard(event);
             }
         });
         // close modal
