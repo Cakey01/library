@@ -46,7 +46,21 @@ class Display {
         library.addBook();
         this.resetInputs();
         this.dialog.close();
-        show(library.books);
+        show(library);
+    }
+
+    removeCard(library) {
+        const remove = document.querySelectorAll('.remove');
+        remove.forEach(button => {
+            button.addEventListener('click', () => {
+                const card = button.parentElement;
+                const id = card.dataset.id;
+                const toDelete = library.books.find(book => book.id === id);
+                const index = library.books.indexOf(toDelete);
+                library.books.splice(index, 1);
+                show(library);
+            });
+        });
     }
 
     eventListeners(library) {
@@ -65,23 +79,22 @@ class Display {
         this.close.addEventListener('click', () => {
             this.dialog.close();
         });
-
     }
 }
 
-function removeCard(library) {
-    const remove = document.querySelectorAll('.remove');
-    remove.forEach(button => {
-        button.addEventListener('click', () => {
-            const card = button.parentElement;
-            const id = card.dataset.id;
-            const toDelete = library.find(book => book.id === id);
-            const index = library.indexOf(toDelete);
-            library.splice(index, 1);
-            show(library);
-        })
-    })
-}
+// function removeCard(library) {
+//     const remove = document.querySelectorAll('.remove');
+//     remove.forEach(button => {
+//         button.addEventListener('click', () => {
+//             const card = button.parentElement;
+//             const id = card.dataset.id;
+//             const toDelete = library.find(book => book.id === id);
+//             const index = library.indexOf(toDelete);
+//             library.splice(index, 1);
+//             show(library);
+//         })
+//     })
+// }
 
 // if read changes
 function readChange(library) {
@@ -112,7 +125,7 @@ function resetLibrary() {
 // show books in library
 function show(library) {
     resetLibrary();
-    library.forEach((book) => {
+    library.books.forEach((book) => {
         const container = document.querySelector('.card-container');
         const card = document.createElement('div');
         const remove = document.createElement('button');
@@ -154,7 +167,7 @@ function show(library) {
         card.appendChild(remove);
         container.appendChild(card);
     });
-    removeCard(library);
+    display.removeCard(library);
     readChange(library);
 }
 
