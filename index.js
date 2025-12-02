@@ -56,8 +56,7 @@ class Display {
         this.read.value = 'Want to read';
     }
 
-    addCard(event) {
-        event.preventDefault();
+    addCard() {
         this.library.addBook(
             this.title.value, 
             this.author.value, 
@@ -155,7 +154,36 @@ class Display {
             this.dialog.showModal();
         });
         // submit
-        this.submit.addEventListener('click', this.addCard.bind(this));
+        // this.submit.addEventListener('click', this.addCard.bind(this));
+        this.submit.addEventListener('click', (e) => {
+
+            // reset custom validities
+            this.title.setCustomValidity('');
+            this.author.setCustomValidity('');
+            this.pages.setCustomValidity('');
+
+            // check title
+            if (this.title.validity.valueMissing) {
+                this.title.setCustomValidity('Please enter book title');
+            }
+
+            // check author
+            if (this.author.validity.valueMissing) {
+                this.author.setCustomValidity('Please enter author name');
+            }
+
+            // check pages
+            if (this.pages.validity.valueMissing) {
+                this.pages.setCustomValidity('Please enter number of pages');
+            }
+
+            if (!this.form.checkValidity()) {
+                return;
+            }
+
+            e.preventDefault();
+            this.addCard();
+        });
         this.form.addEventListener('keydown', (event) => {
             if(event.key === 'Enter') {
                 this.addCard(event);
